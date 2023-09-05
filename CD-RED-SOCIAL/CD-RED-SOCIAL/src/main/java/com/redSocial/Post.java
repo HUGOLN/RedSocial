@@ -38,6 +38,9 @@ public class Post {
         return commentsBuilder.toString();
     }
 
+    public List<Comentario> getListOfComments() {
+        return comentarios;
+    }
 
     public Date getPostDate() {
         return this.postDate;

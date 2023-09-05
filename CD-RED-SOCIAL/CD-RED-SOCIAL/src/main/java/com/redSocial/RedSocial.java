@@ -83,9 +83,6 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
 
 
 
-
-
-
         //Funcionamiento de la red social
 
         System.out.println("\nWelcome " + yourUserName + ", showing latest posts..." );
@@ -101,15 +98,28 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
             System.out.println("Follow a user: follow [username]");
             System.out.println("Unfollow a user: unfollow [username]");
             System.out.println("Add a new user: useradd [new username]");
+
+            //En construccion
+            System.out.println("Change account: login [existing username]");
+
+            //Funcionando
             System.out.println("List all posts from a user: postlist [username]");
+
+            //En construccion
             System.out.println("List all comments from a user: commentlist [username]");
+
+
             System.out.println("Return to network: home");
             System.out.println("Exit: exit\n");
 
             //para el futuro
             //System.out.println("Change account: login [existing username]");
+            //System.out.println("Remove a post: rmpost [post contente]");
 
-            String command = input.string(yourUserName + " --> ");
+
+
+
+            String command = input.string(tuUsuario.getName() + " --> ");
 
             if (command.startsWith("follow ")) {
                 String usernameToFollow = command.substring(7);
@@ -183,17 +193,155 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
                     System.out.println("The username '" + newUsername + "' already exists, please choose another one.");
                 }
 
-            } else if (command.equals("postadd ")) {
-                // Implementa la funcionalidad de agregar una nueva publicación
-                // Puede solicitar al usuario que ingrese el contenido y otros detalles de la publicación
+            } else if (command.equals("postadd")) {
+                // Solicitar al usuario que ingrese el contenido del nuevo post
+                String content = input.string("What do you want to tell the world? --> ");
+
+                // Solicitar al usuario que ingrese detalles multimedia (tipo, calidad, duración)
+
+                String putMedia = input.string("Do you want to add multimedia content to the new post? --> ");
+
+                String type = "Nothing";
+                String quality = "Nothing";
+                String duration = "Nothing";
+
+                if (putMedia.equals("yes") || putMedia.equals("y") || putMedia.equals("si")) {
+
+                    System.out.println("Enter media details:");
+                    type = input.string("Type (image, video, GIF...): ");
+                    quality = input.string("Quality (1920 x 1080 ...): ");
+                    duration = input.string("Duration (120s ...): ");
+                }
+                // Crear un HashMap para almacenar los detalles multimedia
+                HashMap<String, String> multimedia = new HashMap<>();
+                multimedia.put("type", type);
+                multimedia.put("quality", quality);
+                multimedia.put("duration", duration);
+
+                Date postDate = new Date();
+
+                // Crear un nuevo post y avisar por consola
+                Post newPost = new Post(postDate, content, multimedia);
+                tuUsuario.addPost(newPost);
+                System.out.println("New post created successfully!");
             } else if (command.startsWith("postlist ")) {
-                // Implementa la funcionalidad de listar todas las publicaciones de un usuario
                 String usernameToList = command.substring(9);
-                // Encuentra el usuario correspondiente y muestra sus publicaciones
+
+                Usuario userToDisplay = null;
+                for (Usuario usuario : usuarios) {
+                    if (usuario.getName().equals(usernameToList)) {
+                        userToDisplay = usuario;
+                        break;  // Sal del bucle una vez que se encuentre el usuario
+                    }
+                }
+
+                // Verificar si se encontró el usuario
+                if (userToDisplay != null) {
+                    // Obtener la lista de publicaciones del usuario y mostrarlas
+                    List<Post> userPosts = userToDisplay.getPosts();
+                    System.out.println("Posts from " + usernameToList + ":");
+                    for (Post post : userPosts) {
+                        System.out.println("Post date: " + post.getPostDate());
+                        System.out.println("Content: " + post.getContent());
+                        System.out.println("Multimedia: \n" + post.getMultimedia());
+                        System.out.println("Comments: " + post.getNumberOfComments());
+                        System.out.println("--> " + post.getComments());
+                        System.out.println("------------------------------");
+                    }
+                } else {
+                    System.out.println("User not found: " + usernameToList);
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //Todavia no funciona, pendiente de corregir
+
             } else if (command.startsWith("commentlist ")) {
-                // Implementa la funcionalidad de listar todos los comentarios de un usuario
                 String usernameToCommentList = command.substring(12);
-                // Encuentra el usuario correspondiente y muestra sus comentarios
+
+                // Busca el usuario correspondiente en la matriz de usuarios
+                Usuario userToCheck = null;
+                for (Usuario usuario : usuarios) {
+                    if (usuario.getName().equals(usernameToCommentList)) {
+                        userToCheck = usuario;
+                        break;
+                    }
+                }
+
+                if (userToCheck != null) {
+                    // Obtiene la lista de publicaciones del usuario
+                    List<Post> userPosts = userToCheck.getPosts();
+
+                    System.out.println("Comments by " + usernameToCommentList + ":");
+
+                    // Recorre todos los posts
+                    for (Post post : userPosts) {
+                        List<Comentario> comentarios = post.getListOfComments();
+
+                        // Filtra los comentarios hechos por el usuario en cada publicación
+                        for (Comentario comentario : comentarios) {
+                            if (comentario.getCommentUser() == userToCheck) {
+                                System.out.println("Post date: " + post.getPostDate());
+                                System.out.println("Content: " + post.getContent());
+                                System.out.println("Comment: " + comentario.getCommentText());
+                                System.out.println("--");
+                            }
+                        }
+                    }
+                } else {
+                    System.out.println("User not found.");
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }else if (command.startsWith("login ")){
+                String usernameToLogin = command.substring(6);
+
+                boolean usrChanged = false;
+
+                // Buscar el usuario correspondiente en la matriz de usuarios
+                for (Usuario usuario : usuarios) {
+                    if (usuario.getName().equals(usernameToLogin)) {
+                        tuUsuario = usuario;
+                        usrChanged = true;
+                        System.out.println("Logged in as " + usernameToLogin);
+                        break; // Salir del bucle una vez que se encuentra el usuario
+                    }
+                }
+
+                if (usrChanged == false) {
+                    System.out.println("User not found: " + usernameToLogin);
+                }
+
+
+
+
+
+
+
+
+
+
 
             }else if (command.equals("home")){
                 System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
