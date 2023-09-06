@@ -22,7 +22,6 @@ public class Usuario {
     public void unFollowUser(Usuario usuario) {
         following.remove(usuario);
     }
-
     public void addPost(Post post) {
         posts.add(post);
     }
@@ -36,9 +35,6 @@ public class Usuario {
     }
 
     public List<Post> getPosts() {
-
-
-
         return posts;
     }
 

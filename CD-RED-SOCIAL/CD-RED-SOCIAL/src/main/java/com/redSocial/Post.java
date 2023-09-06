@@ -8,9 +8,16 @@ public class Post {
     private Date postDate;
     private List<Comentario> comentarios;
 
+
+
+    private int postID = 0;
+    private static int postCounter = 0;
+
+
     HashMap<String, String> multimedia = new HashMap<>();
 
     public Post(Date postDate, String content, HashMap<String, String> multimedia) {
+        this.postID = postCounter++;
         this.content = content;
         this.postDate = postDate;
         this.comentarios = new ArrayList<>();
@@ -29,11 +36,11 @@ public class Post {
     public String getComments() {
         StringBuilder commentsBuilder = new StringBuilder();
         for (Comentario comentario : comentarios) {
-            commentsBuilder.append(comentario.getCommentText()).append(", ");
+            commentsBuilder.append(comentario.getCommentText()).append("\n--> ");
         }
         // Elimina la coma y el espacio final si hay comentarios
         if (commentsBuilder.length() > 0) {
-            commentsBuilder.delete(commentsBuilder.length() - 2, commentsBuilder.length());
+            commentsBuilder.delete(commentsBuilder.length() - 4, commentsBuilder.length());
         }
         return commentsBuilder.toString();
     }
@@ -45,6 +52,8 @@ public class Post {
     public Date getPostDate() {
         return this.postDate;
     }
+
+    public int getPostID(){return this.postID;}
 
     public String getContent() {
 
