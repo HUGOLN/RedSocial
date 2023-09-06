@@ -101,7 +101,7 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
 
 
 
-        //Funcionamiento de la red social
+        //Funcionamiento de la red social...
 
         System.out.println("\nWelcome " + yourUserName + ", showing latest posts..." );
 
@@ -153,9 +153,9 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
 
                 for (Usuario usuario : usuarios) {
                     if (usuario.getName().equals(usernameToUnfollow)) {
-                        tuUsuario.unFollowUser(usuario); // Deja de seguir al usuario
+                        tuUsuario.unFollowUser(usuario); // Dejar de seguir al usuario
                         System.out.println("You have stopped following " + usernameToUnfollow);
-                        break; // Sal del bucle una vez que encuentres al usuario
+                        break;
                     }
                 }
 
@@ -181,7 +181,7 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
                 }
 
                 if (!userExists) {
-                    // Si el nombre de usuario no existe, crea un nuevo usuario y agrégalo a la matriz
+                    // Si el nombre de usuario no existe, se crea un nuevo usuario y se añade
                     Usuario newUser = new Usuario(newUsername);
                     usuarios = Arrays.copyOf(usuarios, usuarios.length + 1);
                     usuarios[usuarios.length - 1] = newUser;
@@ -196,7 +196,7 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
                 // Solicitar al usuario que ingrese el contenido del nuevo post
                 String content = input.string("What do you want to tell the world? --> ");
 
-                // Solicitar al usuario que ingrese detalles multimedia (tipo, calidad, duración)
+                // Solicitar al usuario los detalles multimedia (tipo, calidad, duración)
 
                 String putMedia = input.string("Do you want to add multimedia content to the new post? --> ");
 
@@ -232,11 +232,10 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
                 for (Usuario usuario : usuarios) {
                     if (usuario.getName().equals(usernameToList)) {
                         userToDisplay = usuario;
-                        break;  // Sal del bucle una vez que se encuentre el usuario
+                        break;
                     }
                 }
 
-                // Verificar si se encontró el usuario
                 if (userToDisplay != null) {
                     // Obtener la lista de publicaciones del usuario y mostrarlas
                     List<Post> userPosts = userToDisplay.getPosts();
@@ -322,7 +321,7 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
                 try {
                     int postID = Integer.parseInt(postIDToRemove);
 
-                    // Seleccionamos y aliminamos el post con el id, si lo encontramos, claro
+                    // Seleccionamos y eliminamos el post con el id, si lo encontramos, claro
                     for (Usuario usuario : usuarios) {
                         List<Post> userPosts = usuario.getPosts();
                         for (Post post : userPosts) {
@@ -371,20 +370,20 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
             else if (command.startsWith("commentin ")) {
                 String postIDToComment  = command.substring(10);
 
-                // Convertir el ID del post a un número entero
+                // Convertir ID a entero
                 int postID = Integer.parseInt(postIDToComment);
 
-                // Buscar el post con el ID especificado
+                // Buscar el post con ese ID
                 Post postToComment = null;
                 for (Usuario usuario : usuarios) {
                     for (Post post : usuario.getPosts()) {
                         if (post.getPostID() == postID) {
                             postToComment = post;
-                            break; // Salir del bucle una vez que se encuentra el post
+                            break;
                         }
                     }
                     if (postToComment != null) {
-                        break; // Salir del bucle externo una vez que se encuentra el post
+                        break;
                     }
                 }
 
@@ -415,8 +414,6 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
             else if (command.startsWith("rmcommentin ")) {
                 String postIDToComment  = command.substring(12);
 
-
-                // Convertir el ID del post a un número entero
                 int postID = Integer.parseInt(postIDToComment);
 
                 // Buscar el post con el ID especificado
@@ -425,11 +422,11 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
                     for (Post post : usuario.getPosts()) {
                         if (post.getPostID() == postID) {
                             postToComment = post;
-                            break; // Salir del bucle una vez que se encuentra el post
+                            break;
                         }
                     }
                     if (postToComment != null) {
-                        break; // Salir del bucle externo una vez que se encuentra el post
+                        break;
                     }
                 }
 
@@ -439,13 +436,13 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
                     System.out.println("Content: " + postToComment.getContent());
                     System.out.println("Comments:");
 
-                    // Mostrar los IDs de los comentarios antes de eliminar uno
+                    // Mostrar los ID de los comentarios
                     List<Comentario> comentarios = postToComment.getListOfComments();
                     for (Comentario comentario : comentarios) {
                         System.out.println("Comment ID: " + comentario.getCommentID() + " - " + comentario.getCommentText());
                     }
 
-                    // Solicitar al usuario que ingrese el ID del comentario a eliminar
+                    // Solicitar el ID del comentario
                     String commentIDToRemove = input.string("Enter the ID of the comment to remove: ");
                     int commentIDToRemoveInt = Integer.parseInt(commentIDToRemove);
 
@@ -473,30 +470,6 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
             }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             else if (command.equals("home")){
                 System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                     updateSocialNetwork(usuarios);
@@ -512,7 +485,7 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
                 // Salir del bucle y finalizar el programa
                 break;
             } else {
-                System.out.println("Invalid command. Try again. ");
+                System.out.println("Invalid command. Try again.");
             }
         }
     }
