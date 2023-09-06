@@ -512,7 +512,7 @@ public static void updateSocialNetwork(Usuario[] usuarios) {
                 // Salir del bucle y finalizar el programa
                 break;
             } else {
-                System.out.println("Invalid command. Try again.");
+                System.out.println("Invalid command. Try again. ");
             }
         }
     }
